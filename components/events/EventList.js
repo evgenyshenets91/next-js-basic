@@ -14,7 +14,7 @@ export const EventList = props => {
             description={description}
             id={id}
             image={image}
-            key={event.id}
+            key={id}
             location={location}
             title={title}
           />
