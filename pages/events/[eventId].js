@@ -1,4 +1,5 @@
 import { getAllEvents, getEventById } from '@/helpers/api-util';
+import Head from 'next/head';
 
 export default function EventDetailsPage(props) {
   const event = props.selectedEvent;
@@ -11,6 +12,10 @@ export default function EventDetailsPage(props) {
 
   return (
     <div>
+      <Head>
+        <title>{event.title}</title>
+        <meta name={'description'} content={event.description} />
+      </Head>
       <h1>Event Details Page:</h1>
       <p>{title}</p>
       <p>{description}</p>
