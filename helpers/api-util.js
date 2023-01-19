@@ -13,3 +13,9 @@ export async function getAllEvents() {
 
   return events;
 }
+
+export async function getEventById(id) {
+  const events = await getAllEvents();
+
+  return events.find(event => event.id === id);
+}
