@@ -1,5 +1,7 @@
 import { getAllEvents, getEventById } from '@/helpers/api-util';
 import Head from 'next/head';
+import classNames from '@/components/events/EventItem.module.css';
+import Image from 'next/image';
 
 export default function EventDetailsPage(props) {
   const event = props.selectedEvent;
@@ -20,8 +22,10 @@ export default function EventDetailsPage(props) {
       <p>{title}</p>
       <p>{description}</p>
       <p>{location}</p>
-      <img
-        style={{ width: '50%', height: '50%' }}
+      <Image
+        className={classNames.image}
+        width={400}
+        height={300}
         alt={title}
         src={'/' + image}
       />
