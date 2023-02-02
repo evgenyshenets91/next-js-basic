@@ -13,6 +13,11 @@ export default function NewComment(props) {
       name: nameInputRef.current.value,
       text: feedbackInputRef.current.value,
     });
+
+    // clean fields after success adding comment
+    emailInputRef.current.value = '';
+    nameInputRef.current.value = '';
+    feedbackInputRef.current.value = '';
   };
 
   return (

@@ -17,15 +17,18 @@ export default function Comments(props) {
       });
   }, []);
 
-  console.log('# comments', comments);
-
   const onAddCommentHandler = async commentData => {
-    await fetch('/api/comments/' + props.eventId, {
+    const response = await fetch('/api/comments/' + props.eventId, {
       method: 'POST',
       body: JSON.stringify(commentData),
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+
+    const data = await response.json();
+    setComments(prev => {
+      return [...prev, data.comment];
     });
   };
 
@@ -36,8 +39,8 @@ export default function Comments(props) {
         <ul>
           {comments.map(el => {
             return (
-              <li key={el.id}>
-                {el.name}: {el.text}
+              <li key={el._id}>
+                {el.email}: {el.text}
               </li>
             );
           })}

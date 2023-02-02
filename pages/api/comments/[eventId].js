@@ -1,5 +1,13 @@
-export default function handler(req, res) {
+const { MongoClient } = require('mongodb');
+
+export default async function handler(req, res) {
   const eventId = req.query.eventId;
+
+  const client = await MongoClient.connect(
+    'mongodb+srv://dbUser:EDQV5MHGEQUjbRZW@cluster0.r5s0bwx.mongodb.net/events?retryWrites=true&w=majority',
+  );
+
+  const db = client.db();
 
   if (req.method === 'POST') {
     const { email, name, text } = req.body;
@@ -10,22 +18,28 @@ export default function handler(req, res) {
     }
 
     const newComment = {
-      id: new Date().toISOString(),
       email,
       text,
       name,
+      eventId,
     };
+
+    const result = await db.collection('comments').insertOne(newComment);
+
+    newComment.id = result.insertedId;
 
     res.status(201).json({ message: 'Added Comment', comment: newComment });
     return;
   }
 
   if (req.method === 'GET') {
-    const list = [
-      { id: 'c1', name: 'Max', text: 'First comment here' },
-      { id: 'c2', name: 'Ivan', text: 'Second comment here' },
-    ];
+    const documents = await db
+      .collection('comments')
+      .find({ eventId: eventId })
+      .toArray();
 
-    res.status(200).json({ comments: list });
+    res.status(200).json({ comments: documents });
   }
+
+  await client.close();
 }

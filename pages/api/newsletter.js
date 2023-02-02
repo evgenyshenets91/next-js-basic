@@ -10,12 +10,12 @@ export default async function handler(req, res) {
     }
 
     const client = await MongoClient.connect(
-      'mongodb+srv://dbUser:EDQV5MHGEQUjbRZW@cluster0.r5s0bwx.mongodb.net/?retryWrites=true&w=majority',
+      'mongodb+srv://dbUser:EDQV5MHGEQUjbRZW@cluster0.r5s0bwx.mongodb.net/events?retryWrites=true&w=majority',
     );
 
     const db = client.db();
 
-    await db.collection('email').insertOne({ email: email });
+    await db.collection('newsletter').insertOne({ email: email });
 
     await client.close();
 
