@@ -2,6 +2,7 @@ import { getAllEvents, getEventById } from '@/helpers/api-util';
 import Head from 'next/head';
 import classNames from '@/components/events/EventItem.module.css';
 import Image from 'next/image';
+import Comments from '@/components/comments/Comments';
 
 export default function EventDetailsPage(props) {
   const event = props.selectedEvent;
@@ -29,6 +30,7 @@ export default function EventDetailsPage(props) {
         alt={title}
         src={'/' + image}
       />
+      <Comments eventId={event.id} />
     </div>
   );
 }

@@ -30,10 +30,10 @@ export default function Home(props) {
       <form onSubmit={registrationHandler}>
         <div style={{ display: 'flex' }}>
           <div>
-            <label htmlFor={'email'}>Sign Up</label>
+            <label htmlFor={'email'}>You Email: </label>
             <input type={'email'} id={'email'} ref={emailRef} />
           </div>
-          <button>Send Feedback</button>
+          <button>Sign Up</button>
         </div>
       </form>
       <EventList items={props.events} />
