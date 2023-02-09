@@ -1,21 +1,46 @@
 import { EventList } from '@/components/events/EventList';
 import { getAllEvents } from '@/helpers/api-util';
 import Head from 'next/head';
-import { useRef } from 'react';
+import { useRef, useContext } from 'react';
+import NotificationContext from '@/store/notification-context';
+import { STATUS_CODE } from '@/components/notification/Notification';
 
 export default function Home(props) {
   const emailRef = useRef();
+  const notificationContext = useContext(NotificationContext);
 
-  const registrationHandler = event => {
+  const registrationHandler = async event => {
     event.preventDefault();
 
-    fetch('api/newsletter', {
-      method: 'POST',
-      body: JSON.stringify({ email: emailRef.current.value }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(res => res.json());
+    notificationContext.showNotification({
+      title: 'Signing up',
+      message: 'Registering for newsletter',
+      status: STATUS_CODE.pending,
+    });
+
+    try {
+      const response = await fetch('api/newsletter', {
+        method: 'POST',
+        body: JSON.stringify({ email: emailRef.current.value }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      await response.json();
+
+      notificationContext.showNotification({
+        title: 'Success',
+        message: 'Successfully registered',
+        status: STATUS_CODE.success,
+      });
+    } catch {
+      notificationContext.showNotification({
+        title: 'Error!',
+        message: 'Something went wrong',
+        status: STATUS_CODE.error,
+      });
+    }
   };
 
   return (
