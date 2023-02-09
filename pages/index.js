@@ -34,6 +34,8 @@ export default function Home(props) {
         message: 'Successfully registered',
         status: STATUS_CODE.success,
       });
+
+      emailRef.current.value = '';
     } catch {
       notificationContext.showNotification({
         title: 'Error!',
